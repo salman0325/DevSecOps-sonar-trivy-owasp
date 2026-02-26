@@ -42,6 +42,17 @@ Because container images and dependencies often contain **known vulnerabilities 
 ### Install Trivy on Linux
 
 ```bash
+this command is used to automaticully intall the new version of triby
+
+sudo apt update
+sudo apt install wget -y
+wget -qO- https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh
+
+
+salman@salman-khan:~/Desktop/devops_project$ sudo mv ./bin/trivy /usr/local/bin/trivy
+sudo chmod +x /usr/local/bin/trivy
+
+
 sudo apt install wget -y
 wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.0_Linux-64bit.deb
 sudo dpkg -i trivy_0.50.0_Linux-64bit.deb
