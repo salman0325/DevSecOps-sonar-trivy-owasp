@@ -31,7 +31,7 @@ OWASP ZAP (Zed Attack Proxy) is an **open-source DAST (Dynamic Application Secur
 ### Option 1: Install OWASP ZAP using Docker (Recommended)
 
 ```bash
-docker pull owasp/zap2docker-stable
+docker pull zaproxy/zap-weekly
 ```
 
 Run ZAP baseline scan:
