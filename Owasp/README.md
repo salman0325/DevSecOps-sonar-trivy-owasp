@@ -84,6 +84,10 @@ docker run -t owasp/zap2docker-stable zap-baseline.py \
 
 * Docker Pipeline
 * Git
+* owasp dependence plugin
+* eclipse temurin installer
+
+Global Tool configuration
 
 ### Jenkins Pipeline Example
 
