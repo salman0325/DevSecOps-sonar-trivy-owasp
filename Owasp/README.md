@@ -103,6 +103,50 @@ stage('OWASP ZAP Scan') {
 }
 ```
 
+```
+pipeline {
+  agent any
+
+  stages {
+
+    stage('Checkout Code') {
+      steps {
+        git 'https://github.com/example/myapp.git'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        sh 'docker build -t myapp .'
+      }
+    }
+
+    stage('Run Container') {
+      steps {
+        sh 'docker run -d -p 8080:8080 --name myapp-container myapp'
+      }
+    }
+
+    stage('OWASP ZAP Scan') {
+      steps {
+        sh '''
+        docker run -t owasp/zap2docker-stable zap-baseline.py \
+        -t http://localhost:8080 \
+        -r zap-report.html || true
+        '''
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        echo 'Deploying application...'
+      }
+    }
+
+  }
+}
+```
+
 > `|| true` prevents pipeline failure during testing phase.
 
 ---
