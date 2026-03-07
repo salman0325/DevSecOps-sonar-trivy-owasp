@@ -103,7 +103,7 @@ stage('OWASP ZAP Scan') {
 }
 ```
 
-```
+```groovy
 pipeline {
   agent any
 
@@ -170,6 +170,34 @@ jobs:
         uses: zaproxy/action-baseline@v0.10.0
         with:
           target: 'http://localhost:8080'
+```
+```groovy
+name: DevSecOps Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Build Docker Image
+      run: docker build -t myapp .
+
+    - name: Run Application
+      run: docker run -d -p 8080:8080 myapp
+
+    - name: OWASP ZAP Scan
+      run: |
+        docker run -t owasp/zap2docker-stable zap-baseline.py \
+        -t http://localhost:8080 \
+        -r zap-report.html || true
 ```
 
 ---
