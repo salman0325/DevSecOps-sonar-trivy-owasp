@@ -158,6 +158,18 @@ stage('Trivy Scan') {
         sh 'trivy image --exit-code 1 --severity CRITICAL myapp:latest'
     }
 }
+stage('Trivy Scan') {
+    steps {
+        sh '''
+        trivy image \
+          --severity CRITICAL \
+          --format template \
+          --template "@contrib/html.tpl" \
+          -o trivy-report.html \
+          myapp:latest
+        '''
+    }
+}
 ```
 
 Pipeline fails if **critical vulnerabilities** are found.
