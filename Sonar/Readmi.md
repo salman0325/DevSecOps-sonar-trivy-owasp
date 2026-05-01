@@ -156,6 +156,57 @@ pipeline {
         }
     }
 }
+
+
+------------------
+pipeline {
+    agent any
+
+    environment {
+        SONARQUBE_TOKEN = credentials('new-sonar') // Jenkins token credential
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/salman0325/Nginx_for_devops.git'
+            }
+        }
+        stage("Trivy: Filesystem scan") {
+            steps {
+              sh 'trivy config .'
+            }
+        }
+        
+        
+
+    
+
+        stage('SonarQube Scan') {
+            steps {
+                withSonarQubeEnv('Sonar') { // Jenkins SonarQube server name
+                    sh """
+                    ${tool 'SonarScanner'}/bin/sonar-scanner \
+                    -Dsonar.projectKey=my-project \
+                    -Dsonar.sources=. \
+                    -Dsonar.login=${SONARQUBE_TOKEN}
+                    """
+                }
+            }
+        }
+
+        
+    }
+
+    post {
+        success {
+            echo "Pipeline completed successfully! ✅"
+        }
+        failure {
+            echo "Pipeline failed! ❌"
+        }
+    }
+}
 ```
 
 * Use **Multibranch Pipeline job** in Jenkins for multi-branch support
